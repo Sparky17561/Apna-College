@@ -1,59 +1,136 @@
-/* Qs1. Add a 2s transition on box1 for width changes.
-       It should have 'ease-in' speed curve & 0.5s delay  */
+*{
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
-       #box1 {
-        width: 100px;
-        height: 100px;
-        background: green;
-        transition: width ease-in 2s;
-        transition-delay: 0.5s;
-        
-        
-      }
-      
-      #box1:hover {
-        width: 600px;
-        border-radius: 50px;
-      }
-      
-      /* Qs2. Using transform, move box2 200px to the right  & 
-              200px down. Also rotate it 90deg.*/
-      
-      #box2 {
-        width: 100px;
-        height: 100px;
-        background: red;
-        transform: translate(200px , 200px) rotate(90deg);;
-        
-        
-      }
-      
-      /* Qs3. Using transform, skew box3 20deg along the x axis.*/
-      
-      #box3 {
-        width: 100px;
-        height: 100px;
-        background: lightblue;
-        transform: skewX(20deg);
-      }
-      
-      /* Qs4. Set a 2px horizontal & 2px vertical, green shadow 
-              for box4, with a 5px blur radius.*/
-      
-      #box4 {
-        width: 100px;
-        height: 100px;
-        background: lightgreen;
-        box-shadow:  2px 2px 5px green;
-      }
-      
-      /* Qs5. Set Your picture or any picture as the background of the div
-              "myPic". Also, set transparency of this div to 50%. */
-      
-      #myPic {
-        width: 200px;
-        height: 200px;
-        background: pink;
-        opacity: 50%;
-        
-      }
+.main_box {
+  background: url("photo.jpg");
+  height: 100vh;
+  background-size: cover;
+}
+
+
+.btn_one i{
+  color: white;
+  font-size: 30px;
+  font-weight: 700;
+  position: absolute;
+  left: 16px;
+  line-height: 60px;
+  transition: all 0.2s linear ;
+}
+
+.sidebar_menu{
+  position: fixed;
+  left: -300px;
+  height: 100vh;
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+  transition: all 0.2s linear ;
+}
+
+.sidebar_menu .logo{
+  position: absolute;
+  width: 100%;
+  line-height: 60px;
+  height: 60px;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.sidebar_menu .logo a{
+  position: absolute;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+  left: 50px;
+
+}
+
+.sidebar_menu .btn_two i{
+  color: grey;
+  font-size: 25px;
+  line-height: 60px;
+  position: absolute;
+  left: 275px;
+  opacity: 0;
+  cursor: pointer;
+  transition: all 0.2s linear ;
+}
+
+.sidebar_menu .menu{
+  position: absolute;
+  width: 100%;
+  top: 80px;
+
+}
+
+.sidebar_menu .menu li{
+  margin-top: 6px;
+  padding: 14px 20px;
+}
+
+.sidebar_menu .menu i,a{
+  color: white;
+  text-decoration: none;
+}
+
+.sidebar_menu .menu i{
+  padding-right: 8px;
+}
+
+.sidebar_menu .social_media {
+
+  position: absolute;
+  left: 25%;
+  bottom: 50px;
+}
+
+.sidebar_menu .social_media i{
+  color: white;
+  opacity: 0.5;
+  padding: 0 5px;
+}
+
+
+#check{
+  display: none;
+}
+
+
+.sidebar_menu .menu li:hover{
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+.btn_one i:hover{
+  font-size: 40px;
+}
+
+.btn_two i:hover{
+  font-size: 30px;
+}
+
+
+.sidebar_menu .social_media i:hover{
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+
+
+#check:checked ~ .sidebar_menu{
+  left: 0;
+}
+
+
+#check:checked ~ .btn_one i{
+  opacity: 0;
+}
+
+#check:checked ~ .sidebar_menu .btn_two i{
+  opacity: 1;
+}
