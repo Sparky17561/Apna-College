@@ -1,3 +1,88 @@
 1)To make a website responsive we give it a max width and when the width of website hits the max width or lower then apply the property
 called flex-wrap : wrap ......it will wrap the flexbox elements and will be responsive.
 
+Javascript:
+case-sensitive
++++++++++++++++++++++++++++++++++++++++++++++++++
+Console Uses REPL (Read-Evaluate-Print-Loop)
+To clear -> CTRL + L 
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+typeof  (varname) --> shows datatype
+2**3 = 8 (exponential)
+
+NaN -> not a number (ex- 0/0)
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1) let (keyword) -> syntax of declaring variables
+----------------------------------------------
+ex- 
+
+let b; (variable "b" defined)
+
+console.log(b) (we will get undefined)
+-----------------------------------------------
+
+2) const (keyword) -> values of constants can't be changed
+with re-assignment and they can't be re-declared
+
+------------------------------------------------
+
+ex- const year = 2025
+
+year = 2026 #error
+year = year + 1 #error
+------------------------------------------------
+
+3) var (also used for variables but is old .... let replaced var)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Typescript is more stricter version of Javascript
+
+ex- in JS -> a = 5 then a = "true" .....accepted
+    in TS -> a = 5 then a = "true" .....rejected
+    once defined as a number always a number
+    JS is dynamic , TS is static
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+Strings
+
+.length --> used to get length of string
+ + --> concatenation
+
+
+ undefined --> value is not assigned and we are trying to print it
+ null --> intentionally value not assigned
+
+ "apnacollege" + 123 --> input (string + number)
+ "apnacollege123" --> output (string)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+console.log(message) --> used to output a message
+
+Template Literals
+
+let a = 10;
+let b = 5;
+console.log(`sum is ${a+b}`);
+
+output --> 15
+
+"==" checks value
+"===" checks value and type (strict comparison)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+alert("something is wrong") --> gives an alert
+
+let name = prompt("Enter your name") --> gives a text field in alert and stores in name 
+
+
+console.error() --> used for error
+
+console.warn() --> used for warning
