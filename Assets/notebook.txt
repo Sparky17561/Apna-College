@@ -86,3 +86,25 @@ let name = prompt("Enter your name") --> gives a text field in alert and stores 
 console.error() --> used for error
 
 console.warn() --> used for warning
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+strings are immutable in JS
+
+1) .trim() --> makes a new string which removes whitespaces from string it is used on
+2) .toUpperCase() --> self explained
+3) .toLowerCase() --> self explained
+4) .indexOf() --> returns the first index of occurence of some value in string or gives -1 if not found
+
+
+method chaining -> to use multiple methods on a string
+
+
+.slice(start,end) --> returns a part of the original string -->end is exclusive
+
+.replace("old","new") --> only first occurence is changed
+
+.repeat(n) --> repeats the string n times
+
+

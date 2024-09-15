@@ -71,3 +71,9 @@ switch(ch){
 }
 
 
+
+let msg = " hi "
+console.log(msg)
+
+console.log(msg.trim())
+
