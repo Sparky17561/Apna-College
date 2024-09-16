@@ -108,3 +108,23 @@ method chaining -> to use multiple methods on a string
 .repeat(n) --> repeats the string n times
 
 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Array (Data Structure)
+
+
+let num =[2,3,4,5] --> square brackets are used
+num[0] --> outputs "2"
+
+typeof num --> returns object
+
+let arr = [] --> accepted
+let arr = ["hi",1,"how r u",7] --> accepted
+
+.length --> used to get length for Array
+
+arr[0][0] --> outputs 'i'
+
+Arrays are mutable
+
+
