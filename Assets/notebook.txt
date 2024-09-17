@@ -127,4 +127,105 @@ arr[0][0] --> outputs 'i'
 
 Arrays are mutable
 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Array methods
+
+.push(element) --> appends element in the last of the array
+.pop() --> returns last element in array and removes the last element
+
+.unshift(element) --> appends element in the start
+.shift() --> returns the first element in the array and removes the first elements 
+
+.indexOf(element) --> returns the index of that element from the array
+
+.concat() --> used to merge 2 Arrays
+
+ex - Array1.concat(Array2) 
+
+.slice() --> works here also (same as string )
+
+.splice(start,deleteCount,item0.....itemN) -> removes / replaces / adds element (all in one)
+
+.sort() --> used for sorting in ascending alphabet
+
+.reverse() --> used to reverse the array
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Array referencing --> each array has different address
+
+if we compare arr1 == arr2 then it will return false bcaz both have different address (irrespective of elements)
+
+but if we do arr2 = arr1 and then compare them it will return true as the address is also given to array 2 with elements
+
+
+if we do const arr = [1,2,3]; 
+
+value can be changed but address cannot override
+
+ex - arr = cars will give error
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Nested Arrays --> visualize as matrix
+
+Arrays of Arrays
+
+ex - arr = [[1,2],[5,6]]
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+for Loop
+
+ex - for(let i=1; i<=5; i++)
+        {
+            console.log(i)
+        }
+
+
+while loop
+
+ex - while(condition)
+    {
+        // do something
+    }
+
+
+for of loop
+
+ex- for (element of collection)
+    {
+        // do something
+    }
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+JS object Literals --> used to store keyed collections and complex entitites
+
+does not have a specific order 
+
+ex - let student = {
+        name : "sai",
+        age : 23,
+        marks : 95,
+        city : "Mumbai"
+};
+
+How to get our values?
+
+1. use student["name"]
+2. use student.name
+
+to update just write student.name = "new name"
+to add -> student.newparameter = "value"
+to delete -> delete student.name
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+We can also do nesting
 

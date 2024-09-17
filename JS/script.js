@@ -77,3 +77,38 @@ console.log(msg)
 
 console.log(msg.trim())
 
+str="ADFE";
+let idx=3;
+if(str[idx]==str[idx].toLowerCase())
+    {
+        console.log("characterislowercase");
+
+    }
+    else
+    {
+        console.log("characterisnotlowercase");
+    }
+
+
+// odd
+for(let i=1;i<=15;i++){
+    if(i%2 != 0)
+        console.log(i)
+
+}
+// even
+for(let j=20;j>=2;j--)
+{
+    if(j%2 == 0){
+        console.log(j)
+    }
+        
+}
+
+let post = {
+    username : "@sai13",
+    context : "this is my first post",
+    likes : 150,
+    reposts : 5,
+    tags : ["#firsttime","#elonmusk34"]
+};
