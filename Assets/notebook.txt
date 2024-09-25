@@ -229,3 +229,39 @@ to delete -> delete student.name
 
 We can also do nesting
 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+We can make array of objects
+
+arr = [
+    {
+        name:"sf",
+        age:"12"
+    },
+    {
+        name:"sdfwed",
+        age:34
+    },
+    {
+        name:"wef",
+        age:90
+    }
+];
+
+Actions same as Objects
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Math Function
+
+Properties ->
+Math.PI 
+Math.E
+
+Method ->
+Math.abs()
+Math.pow(a,b)
+Math.floor()
+Math.ceil()
+Math.random()
