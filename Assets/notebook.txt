@@ -265,3 +265,947 @@ Math.pow(a,b)
 Math.floor()
 Math.ceil()
 Math.random()
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+JS Functions 
+
+
+let arr=[8,9,10,1,2,3,4,5,6,7];
+let num=5;
+
+//elements larger than a number num 
+
+function getElements(arr,num)   -> this is how u write fn name
+{
+    for(let i=0;i<arr.length;i++)
+    {
+        if(arr[i]>num)
+        {
+            console.log(arr[i]);
+        }
+    }
+}
+
+getElements(arr,num); --> this is how u call a function
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+"this" keyword :
+
+this keyword refers to an object that is executing the current piece of code
+
+a function cannot access the parameters out of its domain
+
+
+ex -
+
+const student = {
+    name : 'sai',
+    age: 23,
+    eng:90,
+    math:89,
+    phy:90,
+    getAvg() { ---> also a way to write a function in object .... this is called method
+        let avg = (eng + math + phy)/3;
+        console.log(avg);
+
+    }
+}
+
+
+
+now if we call
+
+student.getAvg() --> will give an error as the function is not able to see eng , phy , math out of its domain
+
+instead we replace the line with this 
+
+"let avg = (this.eng + this.math + this.phy)/3"
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Try and catch - used in exceptions
+
+
+try {
+    console.log(a)
+}catch {
+    console.log("variable a doesnt exist")
+}
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+() => {}; --> this is arrow function
+
+
+Arrow function (shortest way to declare a fn)
+These are nameless function 
+
+const func = (arg1,arg2) => {
+    function definition
+};
+
+
+
+example -> const sum = (a,b) => {
+    console.log(a+b);
+};
+
+
+arrow function with implicit return -> it returns value without using return statement
+althought there is change in the syntax then 
+
+const func = (arg1,arg2) => (value);
+
+ex- const mul = (a,b) => (
+    a*b;
+);
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Set Timeout 
+
+setTimeout(function,timeout)
+
+function -> ur function
+timeout -> delay in ms 
+
+
+ex - 
+
+setTimeout(() =>{
+    console.log("Hello world");
+},4000);
+
+delays function for 4 sec 
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Set Interval
+
+setInterval(function, timeout)
+
+recursively runs function within the timeout Interval
+
+
+setInterval(() =>{
+    console.log("Hello world");
+},2000);
+
+
+infinietly runs after 2 sec
+
+
+
+to stop a interval we store function in a variable and use clearInterval();
+
+
+ex - 
+
+const id = setInterval(() => {
+    console.log("Hello");
+},2000);
+
+
+=> clearInterval(id); -> stops the infinite process
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+
+
+This with arrow function 
+
+normal function has scope depending on the object it is been called by
+
+arrow function has lexical scope (jitna parent ka utna iska)
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Array methods
+
+
+- forEach
+
+ex. 
+
+let arr = [1,2,3,4,5]; 
+
+
+arr.forEach(function(el){
+    console.log(el);
+});
+
+arr.forEach((el) => {
+    console.log(el);
+});
+
+// prints each and every element
+
+-------------------------------------------------------------------------
+
+Map - similar to forEach but it computes for every element and then returns the value in a new array
+
+needs return statement
+ex- 
+
+let num = [1,2,3,4,5];
+
+let double = num.map((el) => {
+    return el*el;
+});
+
+
+
+
+ex - (for objects)
+
+
+let students = {
+    {
+        name: 'aman',
+        marks: 96,
+    },
+    {
+        name: 'sai',
+        marks: 90,
+    }
+};
+
+
+let gpa = students.map((el) => {
+    return el.marks/10;
+});
+
+
+-------------------------------------------------------------------------
+
+
+Filter
+
+if the answer is true it adds in the array else if false it ignores
+
+
+let nums = [1,2,3,4,5];
+
+let ans = nums.filter((el) => {
+    return el%2 == 0;
+})
+
+
+-----------------------------------------------------------------------------------
+
+
+Every 
+
+Returns true if every element of array gives true for some functions. Else returns false
+
+AND gate
+
+ex- 
+
+[2,4,6].every((el) => (el%2==0));
+
+-------------------------------------------------------------------------------------
+
+Some 
+
+Returns true if some elements of array give true for some function else returns false
+
+opposite of Every ==> OR gate
+
+-----------------------------------------------------------------------------------------------
+
+Reduce 
+
+Reduces the array to a single value
+
+maybe not a boolean value
+
+
+arr.reduce(accumulator,element);
+
+
+ex-
+
+[1,2,3,4].reduce((res,ele) => (res+ele));
+
+iter 1: 
+ex- acc=2
+ele = 1
+
+res = 1+2 = 3
+
+iter 2: 
+
+acc=res=3
+ele=2
+
+res/acc = 3+2=5
+
+iter 3: 
+acc=5
+ele=3
+
+res/ele = 5+3 =8
+
+iter 4: 
+
+acc=8
+ele=4
+
+res=8+4=12
+
+iter 5: no ele left
+
+returned value is 12
+
+------------------------------------------------------------------------------------
+
+
+Default parameters
+
+Giving a default value to the argument
+
+
+ex. 
+
+function sum(a,b=3) {
+    return a+b;
+}
+
+sum(2); //5
+
+sum(3,4); //gives correct 7
+
+if a=2 and b is variable
+
+and we call sum(1);  -> it will give error unidentified since first argument given will be for a and not b
+
+------------------------------------------------------------------------------------------
+
+
+Spread
+
+Expands an iterable into multiple values
+
+used by three dots ...
+
+normally we use
+
+Math.min(1,2,4);
+
+and we get 1 as answer
+
+
+but what if we get an array from which we have to check 
+
+like arr = [1,2,4];
+
+for this either we can write
+
+Math.min(arr[0],arr[1],arr[2]);
+
+else
+
+Math.min(...arr);
+
+
+works on strings aswell
+
+
+console.log(...'hello')
+
+
+output: h e l l o
+
+we can also do 
+
+
+let odd = [1,3,5,7];
+
+let even = [2,4,6,8];
+
+let nums = [...odd,...even]; -> this makes an array of  odd numbers first and then even
+
+
+
+Spread with Object Literals
+
+function mergeObjects(arr,arr2){
+    let object = {...arr,...arr2};
+    console.log(object)
+}
+=-----------------------------------------------------------------------------------------
+
+
+Rest 
+
+opposite of Spread
+
+Allows a function to take an indefinite number of arguments and bundle them in an Array
+
+
+ex . 
+
+function sum(...args) {
+    for(let i=0; i<=args.length, i++){
+        console.log('you gave us : ', args[i]);
+        let total = 0;
+        total += args[i];
+    }
+}
+
+
+-----------------------------------------------------------
+
+Destructuring
+
+Storing values of array into multiple variables
+
+let names = ['tony','bruce','petet'];
+let winner = names[0];
+let runnerup = names[1];
+let secondRunnerup = names[2];
+
+---OR---
+
+let [winner,runnerup,secondRunnerup] = names;
+
+----------------------------------------------------------------------
+we can also combine Destructuring with Rest
+
+let [winner, runnerup , secondRunnerup , ...others] = names -> if names contain more than 3 names , from 4th onwards it will be inside the others array
+
+
+------------------------------------------------------------------------------
+
+for Objects Destructuring
+
+
+const student = {
+    name: 'karan',
+    age: 14,
+    class:9,
+    subjects: ['hindi','eng','science','maths'],
+    username: 'sai',
+    password: '1234',
+};
+
+
+let {username, password} = student;
+
+will give username and password of that student
+
+
+we can also give new names to the variables by using:
+
+let {username: user, password: secret, city: place= 'mumbai'} = student; --> we can also take default values
+--------------------------------------------------------------------------------------
+
+DOM (Document Object Model)
+
+The DOM represents a document with a logical three
+
+It allows us to manipulate/change webpage content (HTML elements)
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Selecting elements
+
+getElementById
+
+Returns the element as an object or null (if not found)
+
+-----------------------------------------------------------------------------------------
+
+getElementByClassName
+
+Returns the element as an HTML collection or empty collection (if not found)
+ex. 
+
+let smallImages = document.getElementsByClassName('oldImg');
+
+for(let i=0;i < smallImages.length;i++ )
+{
+    smallImages[i].src = 'image.png';
+    console.log('value')
+}
+
+changes all images to a default image
+
+----------------------------------------------------------------------------------------
+
+getElementByTagName
+
+Returns the element as an HTML collection or empty collection (if not found)
+
+ex.
+document.getElementByTagName('p');
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Query Selectors
+
+Allows us to use any CSS selector
+
+used to select single element which appears first
+
+-----------------------------------------------------------------------
+
+QuerySelectorAll
+
+For all the elements
+document.querySelectorAll('p');
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+using properties and methods
+
+innerText
+
+Shows the visible txt contained in a node
+
+----------------------------------------------------
+textContent
+
+Shows all the full text (hidden also)
+------------------------------------------------------------
+innerHTML
+
+shows the full markup
+------------------------------------------------------------
+
+
+Manipulating Attributes
+
+obj.getAttribute(attr) --> getters
+
+obj.setAttribute(attr,val) --> setters
+
+- setAttribute isnt used much cause it only assignes single value 
+
+----------------------------------------------------------------
+
+
+Manipulating Style
+
+style property
+
+obj.style
+
+
+ex. 
+
+let links = document.querySelectorAll('.box a');
+
+for(let i=0; i<links.length; i++){
+    links[i].style.color = 'purple';
+}
+
+--> changes color to purple for all links
+--> but we dont usually use this method
+--> we can only see inline css written in html through this
+
+-------------------------------------------------------------------------
+
+
+using classList
+
+obj.classList
+
+
+we have to first create classes then we can use empty
+
+classList.add() to add new classes
+
+classList.remove() to remove classes
+
+classList.contains() to check if class exists
+
+classList.toggle() to toggle between add and remove -> set and reset and also return true or false for the class if exists or not
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Navigation
+
+parentElement
+
+children
+
+.childElementCount --> returns the no. of children
+
+.previousElementSibling / .nextElementSibling
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Adding elements
+
+document.createElement('p') --> used to add new paragraphs
+
+after adding a new element we can set a new value to it by using innerHTML , innerText
+
+but then it wont be shown in screen ; for which we will use append functions
+
+.appendChild(element) --> ex- body.appendChild('p') --> appends at last of any parent
+
+append(element) --> we can append text, string --> appending in an existing element - ex - newP.append('this is added text')
+
+prepend(element) --> added in first to the para - ex - newP.prepend('first text')
+
+
+insertAdjacent(where,element) -> ex . p.insertAdjacent('beforeend',btn)
+
+types 
+
+.insertAdjacent('beforebegin',btn)
+.insertAdjacent('afterbegin',btn)
+.insertAdjacent('beforeend',btn)
+.insertAdjacent('afterend',btn)
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+remove
+
+removeChild(element) acts like appendChild but removes
+
+element.remove()
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+DOM events
+
+
+Events are signals that something has occured. (user inputs / actions )
+
+Inline events (multiple function wont execute): 
+button - onclick - when an element is clicked
+
+ex. 
+
+let btn = document.querySelector('button');
+console.dir(btn);
+
+btn.onclick = function(){
+    alert('btn was clicked');
+};
+
+
+OR 
+
+function sayHello(){
+    alert('hello');
+};
+
+btn.click = sayHello;
+
+
+FOR MULTIPLE BUTTONS
+
+let btns = document.querySelectorAll('button');
+
+for(btn of btns){
+    btn.onclick = sayHello;
+}
+
+onmouseenter (when mouse hovers on an element)
+
+
+ex- 
+
+btn.onmouseenter = function(){
+    console.log('u entered a button');
+}
+
+-----------------------------------------------------------------------------
+
+
+Event Listener (multiple function works)
+
+addEventListener
+
+element.addEventListener(event,function/callback);
+
+
+ex. 
+for (btn in btns){
+btn.addEventListener('click',sayHello);
+btn.addEventListener('click',sayName);
+}
+
+multiple functions executed at a time is possible using for loop and addEventListener
+
+
+----------------------------------------------------------------------------------------
+
+
+this in Event listener 
+
+When 'this' is used in a callback of event handler of something. it refers to that something
+
+
+ex. 
+
+h1.addEventListener('click',function(){
+    this.style.backgroundColor = 'pink';
+})
+
+here this means h1
+
+this is used to avoid redundancy
+
+lets say 4 elements have the same function to change a color we make a generic function
+
+function changeColor(){
+    this.style.backgroundColor = 'blue';
+}
+
+ele1.addEventListener('click',changeColor);
+ele2.addEventListener('click',changeColor);
+ele3.addEventListener('click',changeColor);
+ele4.addEventListener('click',changeColor);
+
+-------------------------------------------------------------------------------------------------------
+
+
+Keyboard events
+
+let inp = document.querySelector('input');
+
+inp.addEventListener('keydown',function(){
+    console.log('key was pressed')
+})
+
+inp.addEventListener('keyup',function(){
+    console.log('key was released')
+
+})
+
+key.code is important here check directory for it
+---------------------------------------------------------------------------------------
+
+
+Forms event
+
+let form = document.querySelector('form');
+
+form.addEventListener('submit', function(){
+    alert('form submitted');
+});
+
+
+event.preventDefault() --> wont redirect to default page which fails
+
+
+-----------------------------------------------------------------------------------
+
+
+
+form.addEventListener('submit', function(){
+    event.preventDefault();
+
+
+    let inp = document.querySelector('input');
+    console.dir(inp);
+    console.log(inp.value); --> to track the input value
+
+});
+
+
+LOGIN
+
+
+form.addEventListener('submit', function(){
+    event.preventDefault();
+
+
+    let user = document.querySelector('#user'); -> id='user'
+    let pass = document.querySelector('#pass'); -> id='pass'
+    
+    console.log(user.value); --> to track the username 
+    console.log(user.value); --> to track the password
+
+    alert('Hi ${user.value}, your password is set to ${pass.value}');
+
+});
+
+
+OR (without using query selector)
+
+
+form.addEventListener('submit', function(){
+    event.preventDefault();
+
+
+    let user = this.element[0];
+    let pass = this.element[1];
+
+    console.log(user.value); --> to track the username 
+    console.log(user.value); --> to track the password
+
+    alert('Hi ${user.value}, your password is set to ${pass.value}');
+
+});
+
+
+----------------------------------------------------------------------------------------
+
+MORE Events
+
+change event
+
+The change event occurs when the value of an element has been changed (only works on <input>, <textarea> and <select> elements)
+
+
+ex. 
+
+form.addEventListener('submit', function(){
+    event.preventDefault();
+});
+
+let user = document.querySelector('#user'); -> id='user'
+    
+user.addEventListener('change',function(){
+    console.log('input change');
+    console.log('final value = ', this.value);
+}); 
+
+sirf initial aur final changes ko track krta hai input dene k baad 
+
+
+
+input event
+
+the input event fires when the value of an <input>, <select> or <textarea> element has been changed
+
+form.addEventListener('submit', function(){
+    event.preventDefault();
+});
+
+let user = document.querySelector('#user'); -> id='user'
+    
+user.addEventListener('input',function(){
+    console.log('input change');
+    console.log('final value = ', this.value);
+}); 
+
+ek ek character k baad event trigger hota hai jab input me kuch kre through
+
+
+----------------------------------------------------------------------------------------------------------------
+
+
+Event Bubbling
+
+nested elements pe event listener lgaya toh sabse internal wale ka trigger hua toh sab parent tk ka event execute hoga
+
+event.stoppropagation() --> ye usko rokta hai
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Event Delegation 
+
+for new elements we want the old events to trigger we bring back event Bubbling
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Call Stack LIFO used for debugging along with Breakpoint
+
+JS is Single Threaded
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Promises
+
+The Promise object represents the eventual completion or failure of an asynchronous operation and its resulting value
+
+function saveDb(data){
+    return new Promise((resolve,reject) =>{
+        let internetSpeed = Math.floor(Math.random()*10)+1;
+        if(internetSpeed < 4){
+            resolve('success: data was saved');
+        }
+        else{
+            reject('failure:weak connection');
+        }
+    });
+}
+
+
+
+-----------------------------------------------------------------------------
+
+then() & catch()
+
+
+let request = saveDb('Apna clg');
+
+request
+    .then(() => {
+        console.log('promise was resolved');
+    })
+    .catch(() => {
+        console.log('promise was rejected');
+    });
+
+OR
+
+
+to write it more compactly
+
+saveDb('Apna clg')
+    .then(() => {
+        console.log('promise was resolved');
+    })
+    .catch(() => {
+        console.log('promise was rejected');
+    });
+
+
+------------------------------------------------------------------
+
+
+Promise chaining -> helps in reducing bulky code
+
+saveDb('apna clg')
+    .then(() =>{
+        console.log('data 1 saved');
+        return saveDb('Hello World');
+    })
+    .then(() => {
+        console.log('data2 saved');
+        return saveDb('sai');
+    })
+    .then(() => {
+        console.log('data 3 saveed');
+    })
+    .catch(() => {
+        console.log('promises was rejected')
+    });
+
+

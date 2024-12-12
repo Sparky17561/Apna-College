@@ -112,3 +112,89 @@ let post = {
     reposts : 5,
     tags : ["#firsttime","#elonmusk34"]
 };
+
+
+
+
+
+const square = (n) => (n*n);
+console.log(square)
+
+let arr = [10,20,40,5];
+
+
+let ans = arr.every((el) =>(el%10==0));
+
+console.log(ans)
+
+
+let mina = arr.reduce((el,min)=>{
+    if (el < min)
+        return el;
+    else 
+        return min;
+});
+
+
+console.log(mina)
+
+
+
+const data = {
+    email:'sai@gmail.com',
+    password:'1234',
+};
+
+const dataCopy = {...data,id:20,country:'India'};
+
+console.log(dataCopy)
+
+
+let ar1 = [2,3,5,4];
+
+let an1 = ar1.map((el) => {
+    return el*el;
+})
+
+
+console.log(an1)
+
+let sum = ar1.reduce((res,ele) => (res+ele));
+
+let avg = sum/ ar1.length
+
+console.log(avg)
+
+
+
+let ar2 = ar1.map((el) => {return el+5;})
+
+
+let ar3 = ['hello','My','Sai'].map((el) => {return el.toUpperCase()})
+console.log(ar2)
+console.log(ar3)
+
+
+
+function doubleAndReturnArgs(ar1,...args){
+    let ar2 = args.map((el) => {
+        return el*el;
+    })
+
+    let ar3 = [...ar1,...ar2]
+    console.log(ar3)
+}
+
+
+let student = {
+    name : "sai",
+    age : 23,
+    marks : 95,
+    city : "Mumbai"
+};
+
+
+function mergeObjects(arr,arr2){
+    let object = {...arr,...arr2};
+    console.log(object)
+}
