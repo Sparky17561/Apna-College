@@ -198,3 +198,102 @@ function mergeObjects(arr,arr2){
     let object = {...arr,...arr2};
     console.log(object)
 }
+
+
+
+
+let h1 = document.querySelector('h1')
+
+
+function changeColor(color,delay){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            h1.style.color = color;
+            console.log(`color changed to ${color}!`);
+            resolve('color changed');
+        },delay);
+    });
+}
+
+async function demo(){
+    await changeColor('green',1000);
+    await changeColor('blue',1000);
+    await changeColor('yellow',1000);
+    changeColor('indigo',1000);
+}
+
+
+// CONVERT THE API RESULT JSON TO JS OBJECT
+let jsonRes = '{"fact":"Approx 1/3","length":78}';
+
+console.log(jsonRes)
+
+console.log(jsonRes.fact) // this fails 
+
+let validRes = JSON.parse(jsonRes)
+
+console.log(validRes)
+console.log(validRes.fact) // this works
+
+
+
+// CONVERT UR JS OBJECT TO JSON
+let student1 = {
+    name: 'sai',
+    marks:90
+};
+
+
+let a12 = JSON.stringify(student1)
+console.log(a12)
+
+
+
+let url = 'https://catfact.ninja/fact';
+fetch(url)
+    .then((response)=>{
+        console.log(response);
+        return response.json()
+        })
+        .then((data)=>{
+            console.log(data.fact)
+            return fetch(url);
+        })
+        .then((res)=>{
+            return res.json();
+        })
+        .then((data2)=>{
+            console.log(data2.fact)
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+
+
+// async function getFacts(){
+//     try{
+//         let res = await fetch(url);
+//         let data = await res.json()
+//         console.log(data.fact)
+
+//         let res2 = await fetch(url);
+//         let data2 = await res.json()
+//         console.log(data2.fact)
+//     }catch(e){
+//         console.log(e)
+//     }
+    
+// }
+
+
+async function getFacts() {
+    try{
+        let res = await axios.get(url);
+        console.log(res.data.fact)
+    }catch(e){
+        console.log(e)
+    }
+    
+}
+
+

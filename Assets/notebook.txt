@@ -1209,3 +1209,231 @@ saveDb('apna clg')
     });
 
 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Async Functions
+
+async keyword
+
+Creates an Async Function -> returns promise jispe then() aur catch() use krskte h1
+
+
+async function greet(){
+    return 'Hello';
+}
+
+
+OR
+let hello = async () => ();
+
+
+
+greet()
+    .then((result)=>{
+        console.log('promise was resolved')
+        console.log(result)
+    })
+    .catch((err)=>{
+        console.log('error, promise was rejecteed')
+    })
+
+
+
+Await keyword
+
+pauses the execution of its surrounding async function until the promise is settled (resolved or rejected)
+await sirf async k andar chlta h
+
+async function show(){
+    await colorChange('violet',1000);
+    await colorChange('indigo',1000);
+    await colorChange('green',1000);
+    await colorChange('yellow',1000);
+    await colorChange('orange',1000);
+
+    return 'done';
+}
+
+
+ek k baad ek function execute krna time delay k sath possible hai using async and await
+
+but if any one of the promises got rejected in asyc then the code written after promises wont be executed as it will be in an error state
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+Handling Rejections in Await
+
+using try{} and catch(){}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+API 
+
+Application Programming Interface
+
+JSON
+
+Javascript Object Notation (format)
+
+key -> string
+value -> can be anything
+
+
+----------------------------------------------------
+
+Accessing Data from JSON
+
+JSON.parse(data) method  
+
+To parse a string data into a JS object
+
+
+JSON.stringify(json) method
+
+To parse a JS object data into JSON
+
+
+------------------------------------------------------------
+
+AJAX
+
+Asynchronous JavaScript and XML (API time lagata hai isiliye async process hai)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+HTTP verbs
+
+GET 
+
+POST 
+
+DELETE
+
+------------------------------------------------
+
+STATUS code
+
+200 - OK
+
+404 - Not found
+
+400 - Bad request
+
+500 - Internal Server error
+
+client error -> hamne hi galat API ko request bheji
+server error -> server me fault hai
+
+
+------------------------------------------------------------
+
+ADDITIONAL INFO
+
+Query Strings
+
+https://www.google.com/search?q=harry+potter
+
+
+here q -> key
+here harry+potter -> value
+
+-------------------------------------------------------------------------
+
+
+HTTP Headers --> used to give values additionally in response and request
+
+
+Header , value
+
+---------------------------------------------------------------------------------------
+
+
+Our FIrst request
+
+using Fetch
+
+let url = 'https://catfact.ninja/fact';
+fetch(url)
+    .then((response)=>{
+        console.log(response);
+        return response.json()
+        })
+        .then((data)=>{
+            console.log(data.fact)
+            return fetch(url);
+        })
+        .then((res)=>{
+            return res.json();
+        })
+        .then((data2)=>{
+            console.log(data2.fact)
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+
+
+fetch(url)
+// async function getFacts(){
+//     try{
+//         let res = await fetch(url);
+//         let data = await res.json()
+//         console.log(data.fact)
+
+//         let res2 = await fetch(url);
+//         let data2 = await res.json()
+//         console.log(data2.fact)
+//     }catch(e){
+//         console.log(e)
+//     }
+    
+// }
+----------------------------------------
+
+
+Axios
+
+Library to make HTTP requests
+
+async function getFacts() {
+    try{
+        let res = await axios.get(url);
+        console.log(res.data.fact)
+    }catch(e){
+        console.log(e)
+    }
+    
+}
+
+--------------------------------------------------
+
+Sending Headers through Axios
+
+const config = {headers: { Accept : "application/json"}};
+let res = await axios.get(url2,config);
+console.log(res.data);
+
+-------------------------------------------------------------
+
+
+Updating Query Strings 
+
+let url = "https://universities.hipolabs.com/search?name=";
+
+let country="nepal";
+
+
+async function getColleges(){
+    try{
+        let res = await axios.get(url+country);
+        console.log(res);
+        
+    }catch(e){
+        console.log(e)
+    }
+    
+
+}
