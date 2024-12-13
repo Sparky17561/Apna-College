@@ -1437,3 +1437,508 @@ async function getColleges(){
     
 
 }
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Terminal
+
+Basics
+
+ls = list files
+(show files)
+
+pwd = print working directory
+(where am i?)
+
+clear = clear screen
+------------------------------------------------
+Navigation
+
+cd = change directory
+
+cd .. = back button
+
+cd ../.. = back 2 baar
+----------------------------------------------------
+Making Directories
+
+mkdir = make directory / create folders
+
+-----------------------------------------------------------
+
+Flags
+
+Flags are characters that we pass with commands to modify their behaviour
+
+manual command 
+
+man ls - give info about ls command
+
+man mkdir = give info about mkdir command
+
+
+with Flags
+
+ls -l 
+
+ls -a 
+
+ls -la 
+
+-------------------------------------------------------------
+
+Deleting files and folders
+
+rm = remove files
+
+rmdir = remove empty folders 
+
+rm -rf - remove any folders (recursively force delete files and then remove folder)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Configuring Git
+
+git config --global user.name "My name"
+
+git config --global user.email "someone@gmail.com"
+
+git config --list --> to check 
+
+
+--------------------------------------------------------
+
+Basic commands
+
+clone - cloning a repo on our local machine -  git clone <link>
+
+status - displays the state of the code - git status
+
+add - adds new or changed files in your working directory to the FIt staging area  git add <file name>
+
+commit - it is the record of change - git commit -m 'some message'
+
+push - upload local repo content to remote repo - git push origin main
+
+
+init - used to create a git repo - git init
+
+
+commands for initialisation : 
+
+mkdir project2
+
+cd project 2
+
+git init 
+
+ls -la
+--------------------------------------------------------------------------
+to push a local repo to github 
+
+1. go to github create a repo 
+2. copy the link
+3. enter the command
+git remote add origin <link>
+
+-------------------------------------------------
+
+to check which branch - git master
+-------------------------------------------------------------
+to change name --> git branch -M main (rename to main)
+------------------------------------------------------------------
+git push origin main (to send local repo to github)
+
+----------------------------------------------------
+
+
+if u write git push -u origin main -> this creates an upstream 
+
+to push next time u have to just write "git push" no need of origin main then
+--------------------------------------------------------------------------------
+
+git checkout <branch name> (to navigate)
+
+git checkout -b <new branch name> (to create new branch)
+
+git branch -d <branch name > (to delete branch)
+
+git push --set-upstream origin <branch name> (to push the code to the new branch and setting an upstream)
+
+---------------------------------------------------------------------------------------
+
+Merging code
+
+git diff <branch name> (to compare commits,branches , files and more )
+
+
+git merge <branch name>  (to merge 2 branches)
+
+
+or 
+
+Create a pull request
+
+Pull request - it lets u tell others about changes you've pushed to a branch in a repo on github
+
+
+git pull origin main (to reflect the changes of github to ur local machine)
+(after changes in github u can do this)
+
+
+-------------------------------------------------------------------------------------------------------------
+
+Merge Conflicts
+
+if different lines of code is written on the same files of different branches these may arise while Merging
+
+------------------------------------------------------------------------
+
+TO ADD NEW TO existing
+
+git add .
+git status
+git commit -m 'message'
+git push origin main 
+
+
+-------------------------------------------------------------------------------------
+
+
+Fixing Mistakes
+
+case 1: staged changes
+
+    git reset <filename>
+    git reset
+
+
+case 2 : committed changes (for one commit)
+
+    git reset HEAD~1
+
+case 3 : committed changes (for many commits)
+
+    git reset <commit hash> 
+
+    use git log 
+
+    there will be a "commit <a very long hash code>"
+
+    then use git reset <commit hash>
+
+    git reset --hard <commit hash> --> to delete lines of code from the editor and also reset
+
+------------------------------------------------------------------------------------------------------------------------
+
+What is Forking
+
+used in open source contributions
+
+go github > fork > give name > done 
+
+make changes 
+
+commit
+
+go to pull request
+
+original repo <- forked repo click create pull request
+
+A Fork is a new repo that shares code and visibility settings with the original "upstream" repo
+
+Fork is a rough copy
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+NodeJS
+
+Javascript Runtime Environment
+
+It is used fro server side Programming
+
+NodeJS is not a language, library or framework
+
+Node REPL (Read,Evaluate,Print,Loop)
+
+enter 
+
+node to enter the node server in cmd
+
+enter .help for basic commands
+
+
+-----------------------------------------------------------------------
+
+Node files
+
+Be in the directory where u have the js file to execute
+
+type node <file name>.js in terminal to execute
+
+
+module.exports
+
+requiring Directories
+
+require() -> a built-in function to include external modules that exist in seperate files
+
+module.exports -> a special object
+
+
+------------------------------------------------------------------------
+
+
+suppose we have a root directory
+
+inside that we have a fruits directory and script.js
+
+inside fruits we have 3 files 
+
+apple.js
+banana.js
+orange.js
+
+
+inside which the code is written
+
+// apple.js
+module.exports = {
+    name: 'apple',
+    color:'red'
+}
+
+// banana.js
+module.exports = {
+    name: 'banana',
+    color:'yellow'
+}
+
+// orange.js
+module.exports = {
+    name: 'orange',
+    color:'orange'
+}
+
+
+
+we then create an index.js file in fruits directory 
+
+and write
+
+const apple = require('./apple');
+const banana = require('./banana');
+const orange = require('./orange');
+
+let fruits = [apple,banana,orange];
+
+module.exports = fruits;
+
+
+
+now inside script.js in root directory
+
+const info = require('./fruits');
+
+console.log(info);
+
+
+
+this will allow u to work with multiple js files 
+
+index.js is like main() of Java we need an index.js to access
+
+----------------------------------------------------------------------------
+
+
+NPM (Node Package Manager)
+
+npm is a standard package manager for Node.js
+
+- library of packages
+- command line tool 
+- preinstalled in node
+
+
+------------------------------------------------------------------------------------
+
+
+Installing packages
+
+npm install <package name>
+
+
+node_modules : The node_modules folder contains every installed dependency for ur project
+
+package-lock.json : It records the exact version of every installed dependence, including its sub-dependencies and their versions
+
+package.json - this file contains descriptive and functional metadata about a project, such as a name, version and dependencies 
+
+we can use package.json only to download dependencies ... in production we delete node modules , also if its deleted it can still be restored
+
+we type npm install to restore it if we have package.json 
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Local v/s Global 
+
+TO access a package globally 
+
+1.sudo chown -R $USER /usr/local/lib/node_modules  
+
+2.npm install -g <package name>
+
+3.npm link <package name>
+
+------------------------------------------------------------------------------------------------------------------
+
+Require v/s Import
+
+in file from which u want a fn
+
+export const PI = 3.14
+
+to the file u want to execute
+
+
+import {sum,PI} from "./math.js"
+console.log(sum(1,2))
+
+in directory of the main file do npm init and create a package json 
+
+in package.json create a key-value pair of  "type" : "module"; (do for import export files)
+
+we cant selectively load only the pieces we need with require but with import,
+we can selectively load only the pieces we need, which can save memory
+
+Loading is synchronous for 'require' but can be asynchronous for 'import'
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+ExpressJS
+
+
+Library 
+
+A library is a collection of pre-written code that can be used to perform specific tasks
+
+ex- Axios
+
+framework
+
+A framework is a set of pre-written code that provides a structure for developing software applications
+
+ex- Express 
+
+-----------------------------------------------------------------------------------------------------------
+
+Express
+
+-A Node.js web application framework that helps us to make web applications 
+-It is used for server side Programming
+-It listens the incoming requests
+-parse krta hai request js k hisab se
+-to match response with routes 
+
+
+------------------------------------------------------------------------------------------------------------
+
+Getting started with ExpressJS 
+
+const express = require('express');
+const app = express();
+
+
+// console.dir(app);
+
+let port = 3000;
+
+app.listen(port,()=>{
+    console.log(`app is listening on port : ${port}`);
+});
+
+
+# ports are the logical endpoints of a network connection that is used to exchange information between a web server and a web client
+
+
+-------------------------------------------------------------------
+
+app.use
+
+app.use((req,res)=>{
+    console.log('new incoming req');
+});
+
+
+app.use((req,res)=>{
+    console.log(req)
+    console.log('new incoming req');
+    res.send('this is a basic response');
+});
+
+
+----------------------------------------------------------------------------
+
+
+Routing 
+
+It is a process of selecting a path for traffic in a network or between or across multiple networks
+
+app.get("/apple", (req,res)=>{
+    res.send({
+        name:"apple",
+        color:"red",
+    });
+});
+
+
+// ek baar me ek hi response
+
+app.get('/',(req,res)=>{
+    res.send('u contacted root');
+})
+
+app.get("*",(req,res)=>{
+    res.send('no page available')
+})
+
+--------------------------------------------------------------------
+
+Nodemon - used to automatically restart server with code changes
+
+npm i -g nodemon  -> install
+
+nodemon -v -> check version
+
+nodemon index.js -> run server
+
+
+------------------------------------------------------------------------------
+
+Path parameters
+
+req.params 
+
+app.get("/ig/:username",(req,res)=>{
+    let {username} = req.params;
+    res.send(`This account belongs to @${username}`);
+});
+
+
+
+Query Parameter 
+
+// query parameter
+app.get('/search',(req,res)=>{
+    console.log(req.query);
+    res.send('success');
+})
+
+http://localhost:3000/search?q=apple&color=green
+
+
+ 
