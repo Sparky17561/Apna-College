@@ -1941,4 +1941,575 @@ app.get('/search',(req,res)=>{
 http://localhost:3000/search?q=apple&color=green
 
 
- 
+ ------------------------------------------------------------------------------------------
+
+
+ Templating
+
+ EJS (Embedded Javascript Templates)
+
+ EJS is a simple templating language that leets you generate HTML markup with plain Javascript
+
+ Same as a component in ReactJS
+
+ Just like Djinja in Django
+
+npm init -y
+
+npm i express
+
+npm i ejs 
+
+app.set('view engine','ejs') --> used to help render the template
+
+
+
+app.set('view engine','ejs');
+
+app.get('/',(req,res)=>{
+    res.render('home.ejs');
+})
+
+app.get('/hello',(req,res)=>{
+    res.send('hello');
+})
+
+app.listen(port,()=>{
+    console.log(`listening on port ${port} `)
+})
+
+
+it is same as writing views.py and using djinja at the same time
+
+EJS k folder k andar terminal rkhoge toh hi chlega 
+
+agar global backend scale pe chahiye toh ye krna padega :
+
+const path = require('path')
+
+app.set("views",path.join(__dirname, "/views"))
+
+
+----------------------------------------------------------------------------------
+
+Interpolation syntax
+
+Interpolation refers to embedding expressions into marked up text 
+
+
+<%= 1+ 2 %> --> gives 3 , <%=%> --> gives output of a javascript function
+
+
+-------------------------------------------------------------------------------------
+
+Passing Data to EJS 
+
+
+1st way 
+
+
+rolldice.ejs
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Dive gave value:
+        <%= Math.floor(Math.random()*6) + 1 %>
+    </h1>
+</body>
+</html>
+
+
+
+index.js
+
+app.get('/rolldice',(req,res)=>{
+    res.render('rolldice.ejs')
+})
+
+
+
+2nd way 
+
+rolldice.ejs
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Dive gave value:
+        <%= num %>
+    </h1>
+</body>
+</html>
+
+index.js
+
+app.get('/rolldice',(req,res)=>{
+    let diceVal = Math.floor(Math.random()*6)+ 1;
+    res.render('rolldice.ejs',{num: diceVal}) --> key value pair object send 
+})
+
+we can also pass diceVal directly 
+
+app.get('/rolldice',(req,res)=>{
+    let diceVal = Math.floor(Math.random()*6)+ 1;
+    res.render('rolldice.ejs',{diceVal}) --> key value pair object send 
+})
+
+
+
+---------------------------------------------------------------------------------------------------
+
+
+Instagram EJS 
+
+Create a basic template for instagram page based on following route :
+
+/ig/:username 
+
+insta.ejs
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+</head>
+<body>
+    <h2>This page belongs to <%= username %> </h2>
+    <button>follow</button>
+    <button>message</button>
+</body>
+</html>
+
+index.js
+
+app.get('/ig/:username',(req,res)=>{
+    let { username } = req.params;
+    res.render('instagram.ejs',{username})
+})
+------------------------------------------------------------------------
+
+Conditional Statements in EJS (<%   %>)
+
+ex. 
+
+<% if (diceVal == 6) { %>
+<h2>Nice! Roll dice again.</h2>
+<% } %>
+
+------------------------------------------------------------
+Loops in EJS 
+
+<% for( user of followers) { %>
+<li><%= user %></li>
+<% } %>
+
+
+-------------------------------------------------------------------
+
+Instagram Page with EJS 
+
+const instaData = require('./data.json')
+
+instagram.ejs 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <style>
+        img {
+            height:100px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h2>This page belongs to <%= data.name %> </h2>
+    <button>follow</button>
+    <button>message</button>
+
+    <p>Followers: <%= data.followers %>&nbsp;&nbsp;&nbsp;&nbsp; Following : <%= data.following %></p>
+    <hr>
+    <% for(let post of data.posts) {%>
+        <img src="<%= post.image %>" alt="some img">
+        <p>
+            Likes: <%= post.likes %>&nbsp;&nbsp;&nbsp;&nbsp; comments : <%= post.comments %>
+        </p>
+    <% } %>
+</body>
+</html>
+
+index.js
+
+app.get('/ig/:username',(req,res)=>{
+    let { username } = req.params;
+    const instaData = require('./data.json')
+    const data = instaData[username]
+    if(data){
+        res.render('instagram.ejs',{data})
+    }
+    else{
+        res.render('error.ejs')
+    }
+    
+})
+
+error.ejs 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Account</title>
+</head>
+<body>
+    <h1>No account formed</h1>
+</body>
+</html>
+
+------------------------------------------------------------------------------------------------
+
+Serving Static Files for css and js files 
+
+in EJS folder
+
+app.use(express.static(folder_name))
+
+in Global backend 
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+----------------------------------------------------------------------------------
+
+Includes 
+
+create sub templates -> link to a new page 
+
+
+<%- include('includes/head.ejs'); %>
+
+
+the html boiler plate is everywhere ..... make a folder in views called includes, inside it create head.ejs and paste the boiler code
+
+now remove the code of same boiler plate and replace it with include('includes/head.ejs') %>
+
+this can also be used when creating a navbar or sidebar for management systems 
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Miscellaneous 
+
+
+GET & POST requests 
+
+GET 
+
+- used to GET some response 
+- data sent in query strings (limited, string data & visible in URL)
+- GET ka scene hai ki username password uppar url k query me jayega jo compromise krskta h user ko usse accha POST use kro
+POST 
+
+- used to POST something (for Create/Write/Update)
+- Data sent via request body (any type of data)
+
+
+frontend/index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GET and POST request</title>
+</head>
+<body>
+    <h1>GET response</h1>
+    <form action="http://localhost:8080/register" method="get">
+        <input placeholder="enter username" type="text" name="user">
+        <input placeholder="enter password" type="password" name="password">
+        <button>submit</button>
+    </form>
+    <hr>
+    <h1>POST response</h1>
+    <form action="http://localhost:8080/register" method="post">
+        <input placeholder="enter username" type="text" name="user">
+        <input placeholder="enter password" type="password" name="password">
+        <button>submit</button>
+    </form>
+</body>
+</html>
+
+
+backend/index.js
+
+const express = require('express')
+const app = express()
+const port = 8080
+
+
+app.get('/register',(req,res)=>{
+    let {user, password} = req.query;
+    res.send(`standard GET response. Welcome ${user}`)
+})
+
+
+app.post('/register',(req,res)=>{
+    res.send('standard POST response')
+})
+
+app.listen(port,()=>{
+    console.log(`listening to post ${port}`)
+})
+
+
+
+
+-----------------------------------------------------------------------
+
+Handling Post Requests 
+
+Set up POST request route to get some response 
+
+Parse POST request data 
+
+app.use(express.urlencoded({extended : true }));
+app.use(express.json());
+
+
+
+we just cant use this to print the body 
+
+app.post('/register',(req,res)=>{
+    console.log(req.body)
+    res.send('standard POST response')
+})
+
+
+express doesnt understand human string thats why we parse it using encoding 
+
+app.use(express.urlencoded({extended : true }));
+app.use(express.json());  --> if we send this POST request an JSON it can read using this parser else it will say undefined
+
+app.post('/register',(req,res)=>{
+    console.log(req.body)
+    let {user, password} = req.body;
+    res.send(`standard POST response. Welcome ${user}`)
+})
+
+now this works 
+
+
+---------------------------------------------------------------------------------------
+
+Revisiting JS (OOPS)
+
+
+Object Oriented Programming
+
+TO structure our code 
+
+- prototypes
+- New Operator
+- constructors
+- classes 
+- keywords (extends,super)
+
+
+-------------------------------------------------------------------
+
+Object Prototypes 
+
+Prototypes are the mechanism by which Javascript objects inherit features from one another.
+It is like a single template object that all objects inherit methods and properties from without having their own copy 
+
+
+arr__proto__(reference)
+
+Array.prototype(actual object)
+
+String.prototype 
+
+------------------------------------------------------------------------------------------------
+
+Factory Functions 
+
+A function that creates objects 
+
+function PersonMaker(name,age){
+    const person = {
+        name: name,
+        age: age,
+        talk: function(){
+            console.log(`hi my name is ${this.name}`)
+        },
+    };
+    return person;
+}
+
+
+disadvantage = har obj k paas khud ki copy jaati hai 
+
+like 
+
+let p1 = PersonMaker('adam',23)
+let p2 = PersonMaker('eve',22)
+
+p1.talk() === p2.talk() --> false as both obj have their own copy 
+
+
+---------------------------------------------------------------------------------------
+
+New Operator 
+
+THe new operator lets developers create an instance of a user-defined object type or of one of the built-in object types that has a constructor function 
+
+// constructors -> doesnt return anything and start with capital letter 
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+}
+
+Person.prototype.talk = function() {
+    console.log(`hi my name is ${this.name}`)
+};
+
+
+let p1 = new Person('adam',23)
+let p2 = new Person('eve',22)
+
+
+It also changes "this" inside the constructor function 
+
+-------------------------------------------------------------------------------------------
+
+Classes 
+
+Classes are a template for creating objects 
+
+The constructor method is a special method of a class for creating and initializing an object instance of that class
+
+class Person{
+    constructor(name,age){
+        this.name = name;
+        this.age = age;
+    }
+
+Person.prototype.talk = function() {
+    console.log(`hi my name is ${this.name}`)
+};
+}
+
+
+let p1 = new Person('adam',23)
+let p2 = new Person('eve',22)
+
+still p1.talk === p2.talk --> true cauz of same copy
+----------------------------------------------------------------------------------------------------
+
+
+Inheritance
+
+Inheritance is a mechanism that allows us to create new classes on the basis of already existing classes 
+
+
+class Student extends Person{
+    constructor(name,age,marks){
+        super(name,age);
+        this.marks = marks;
+    }
+
+    greet(){
+        return "hello"
+    }
+}
+
+
+let s1 = new Student('adam',21,90);
+
+-----------------------------------------------------------------------------------------------------------------------
+
+REST 
+
+Representational State Transfer 
+
+REST is a architectural style that defines a set of constraints to be used for creating web services 
+
+CRUD operations
+
+GET retrieves resources 
+POST submits new data to the server 
+PUT updates existing data 
+PATCH updates existing data partially 
+DELETE removes data 
+
+Creating RESTful APIs 
+
+GET  /posts          to get data for all posts   INDEX(Main cheez)
+
+POST /posts          to add new post             CREATE
+
+GET  /posts/:id      to get one post (using id)  VIEW
+
+PATCH /posts/:id     to update specific post     UPDATE
+
+DELETE /posts/:id    to delete specific post     DESTROY
+
+
+
+Redirect 
+
+Express can redirect to other pages by using : res.redirect(URL)
+
+Create ID for posts 
+
+UUID package 
+
+Universally unique identifier 
+
+npm i uuid 
+
+
+html forms can only send GET and POST request 
+
+to sent PUSH , DELETE , PATCH we use method-override package from npm
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+WHat is a Database 
+
+It is a collection of data in a format that can be easily accessed 
+
+
+Why databases ?
+
+-can store large data 
+-features like security, scalability,etc.
+-easier to insert, update or delete data 
+
+SQL  - relational database(data stored in tables) ex. MySQL, Oracle, PostgreSQL, etc. 
+
+NoSQL - Non Relational Database (data stored in document/key-val/graphs,etc) ex. MongoDB, Cassandra, Neo4j,etc
+
+SQL (Structured Query Language)
+
+SQL is a programming language used to interact with relational databases 
+
