@@ -2513,3 +2513,172 @@ SQL (Structured Query Language)
 
 SQL is a programming language used to interact with relational databases 
 
+
+{see screenshots }
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Faker 
+
+To generate fake data 
+
+let getUser = () =>{
+    return [
+        faker.string.uuid(),
+        faker.internet.userName(),
+        faker.internet.email(),
+        faker.internet.password(),
+    ];
+};
+
+----------------------------------------------------------------
+
+MySQL2 Package 
+
+To connect Node with MySQL 
+
+connection.end(); // to close connection 
+
+To establish connection 
+
+npm i mysql2 
+
+const mysql = require('mysql2')
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    database: 'test'
+});
+
+
+TO query a statement 
+
+
+try{
+    connection.query('SHOW TABLES;',(err,result)=>{
+        if(err) throw err;
+        console.log(result)
+    })
+}catch(err){
+    console.log(err)
+}
+
+
+
+There is also a way to run a sql script via a file 
+
+
+1. make file with extension .sql 
+2. open sql cmd by writing "sql -u root -p"
+3. write source 'file name'
+
+--------------------------------------------------------------------------
+
+
+ random 100 entries inside db 
+
+ const {faker } = require('@faker-js/faker');
+const mysql = require('mysql2')
+
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    database: 'delta_app',
+    password: 'abc123'
+});
+
+let q ='INSERT INTO user (id,username,email,password) VALUES ?'
+
+let getUser = () =>{
+    return [
+        faker.string.uuid(),
+        faker.internet.username(),
+        faker.internet.email(),
+        faker.internet.password(),
+    ];
+};
+
+let data=[];
+for(let i=1; i<=100; i++)
+{
+    data.push(getUser());
+}
+
+try{
+    connection.query(q,[data],(err,result)=>{
+        if(err) throw err;
+        console.log(result)
+    })
+}catch(err){
+    console.log(err)
+}
+
+connection.end();
+
+
+------------------------------------------------------------------------
+
+MongoDB 
+
+mongosh // to start 
+
+use college // to create & use a new db called "college" 
+
+db // to see which db u in 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+BSON data 
+
+JSON is Text based and parsing is hard and memory storage is inefficient 
+BSON is Binary based and MongoDB takes JSON which appears as text and converts them to Binaries which is parsed easily and is efficient for storage 
+
+---------------------------------------------------------------------------------------------------------------
+
+Collections 
+
+Document : Mongo stores data in form of documents (BSON docs)
+Collection  : MongoDB stores documents in collection 
+
+ek row -> ek document 
+
+----------------------------------------------------------------------------------------------------------------
+
+Insert One 
+
+test> use college
+
+college> show collections
+
+college> db.student.insertOne({name:'adam', age: 19, marks:80})
+
+college> db.student.find()
+[
+  {
+    _id: ObjectId('67610a7d2dad56442cea523b'),    name: 'adam',
+    age: 19,
+    marks: 80
+  }
+]
+
+------------------------------------------------------------------------------------------------
+
+Insert Many 
+
+insertMany(array of docs)
+
+db.student.insertMany([{name:'bob',marks:90},{name:'eve',city:'delhi'}])
+
+-----------------------------------------------------------------------------------------------
+
+Find in DB (same as SELECT in student)
+
+db.collection.find()  //returns everything
+
+for specific queries 
+
+db.collection.find({key:value}) --> returns cursor --> array k andar objects 
+
+db.collection.findOne({key:value}) --> returns single document --> sirf objects 
