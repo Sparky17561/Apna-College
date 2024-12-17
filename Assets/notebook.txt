@@ -2682,3 +2682,509 @@ for specific queries
 db.collection.find({key:value}) --> returns cursor --> array k andar objects 
 
 db.collection.findOne({key:value}) --> returns single document --> sirf objects 
+
+
+Find student where marks > 75 
+
+db.student.find({marks:{$gt:75}})
+
+Find students who live in delhi or mumbai 
+
+db.student.find({city:{$in:['delhi','mumbai']}})
+
+less than --> $lt 
+less than equal to --> $lte 
+greater than --> $gt 
+greater than equal to --> $gte 
+$ne --> not equal tp 
+not in array --> $nin 
+
+$and 
+$not 
+$nor 
+$or 
+$exists 
+$type 
+
+
+--------------------------------------------------------------------
+
+UPDATE in DB 
+
+updateOne
+updateMany
+replaceOne
+
+college> db.college.updateOne({name:'raju'},{$set:{marks:100}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+college> db.college.find()
+[
+  {
+    _id: ObjectId('67613852e95fcff13586b334'),
+    name: 'raju',
+    city: 'thane',
+    marks: 100
+  },
+  {
+    _id: ObjectId('67613852e95fcff13586b335'),
+
+college> db.college.updateOne({name:'raju'},{$set:{marks:98}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+college> db.college.find()
+[
+  {
+    _id: ObjectId('67613852e95fcff13586b334'),
+    name: 'raju',
+    city: 'thane',
+    marks: 98
+  },
+  {
+    _id: ObjectId('67613852e95fcff13586b335'),
+    name: 'ava',
+    city: 'amsterdam',
+    marks: 90
+  }
+]
+college> db.college.updateMany({marks:{$gt:90}},{$set:{city:"mumbai"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+college> db.college.find()
+[
+  {
+    _id: ObjectId('67613852e95fcff13586b334'),
+    name: 'raju',
+    city: 'mumbai',
+    marks: 98
+  },
+  {
+    _id: ObjectId('67613852e95fcff13586b335'),
+    name: 'ava',
+    city: 'amsterdam',
+    marks: 90
+  }
+]
+college> db.college.replaceOne({name:'ava'},{name:'avanti',marks:98})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+college> db.college.find()
+[
+  {
+    _id: ObjectId('67613852e95fcff13586b334'),
+    name: 'raju',
+    city: 'mumbai',
+    marks: 98
+  },
+  {
+    _id: ObjectId('67613852e95fcff13586b335'),
+    name: 'avanti',
+    marks: 98
+  }
+]
+college> db.college.updateOne({name:'avanti'},{$set:{city:'mumbai'}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+college> db.college.find()
+[
+  {
+    _id: ObjectId('67613852e95fcff13586b334'),
+    name: 'raju',
+    city: 'mumbai',
+    marks: 98
+  },
+  {
+    _id: ObjectId('67613852e95fcff13586b335'),
+    name: 'avanti',
+    marks: 98,
+    city: 'mumbai'
+  }
+]
+
+--------------------------------------------------------------------------------
+
+Nesting 
+
+college> db.college.insertOne({name:'sai', age: 19, performance:{grade:'o',marks:90}})
+
+college> db.college.find({'performance.marks':90})
+[
+  {
+    _id: ObjectId('67613cd1e95fcff13586b336'),
+    name: 'sai',
+    age: 19,
+    performance: { grade: 'o', marks: 90 }    
+  }
+]
+
+-----------------------------------------------------------------------------------------------
+
+
+
+Delete in DB 
+
+
+
+deleteOne 
+
+college> db.college.deleteOne({city :{$in:['mumbai']}})
+{ acknowledged: true, deletedCount: 1 }
+college> db.college.find()
+[
+  {
+    _id: ObjectId('67613cd1e95fcff13586b336'),
+    name: 'sai',
+    age: 19,
+    performance: { grade: 'o', marks: 90 },   
+    marks: 'thane'
+  }
+]
+
+deleteMany
+
+college> db.college.deleteMany({'performance.marks' :{$lte:97}})
+{ acknowledged: true, deletedCount: 2 }
+college> db.college.find()
+[
+  {
+    _id: ObjectId('67616c1fe95fcff13586b338'),
+    name: 'rau',
+    age: 19,
+    performance: { grade: 'o', marks: 100 }   
+  }
+]
+
+Truncate - dont give any parameter inside deleteMany
+
+college> db.college.deleteMany({})
+{ acknowledged: true, deletedCount: 1 }
+college>
+
+drop table 
+
+first truncate then drop 
+
+college> db.dropDatabase()
+{ ok: 1, dropped: 'college' }
+
+
+----------------------------------------------------------------------
+
+Mongoose 
+
+A library that creates a connection between MongoDB and Nodejs JS runtime env 
+
+It is an ODM (Object Data Modelling) library 
+
+run mongod in cmd 
+run mongosh in other 
+in folder run npm init -y 
+npm i mongoose 
+
+starter code 
+
+const mongoose = require('mongoose')
+
+
+//async process it returns promise 
+//mongoose.connect('mongodb://127.0.0.1:27017/test')
+
+main().then(()=> console.log('connection successful'))
+.catch(err=> console.log(err))
+
+async function main(){
+    await mongoose.connect('mongodb://127.0.0.1:27017/test')
+
+}
+
+-------------------------------------------------------------------------------------
+
+Schema 
+
+Schema defines the shape of the documents within that collection 
+
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    age: Number,
+});
+
+---------------------------------------------------------------------------------------
+
+Models 
+
+Model in mongoose is a class with which we construct documents 
+write model name singular  (ex. user and not users)
+
+const User = mongoose.model("User",userSchema);
+
+after this run the file using "node index.js" and go to the mongosh terminal and enter "show collections"
+u will see a collection named "users" 
+
+if we made model Product we would have got products 
+
+User -> users 
+Product -> products 
+
+---------------------------------------------------------------------------------------
+
+insert 
+
+inserting one 
+
+const user1 = new User({name:'adam',email:'adam@yahoo.in',age:48});
+
+const user2 = new User({name:'eve',email:'eve@yahoo.in',age:48});
+
+user1.save() // save in DB 
+user2.save() // save in DB 
+
+
+Order Matters:
+Define the schema, then the model, and only after that create and save an instance.
+
+
+const mongoose = require('mongoose');
+
+// Connect to MongoDB
+main()
+  .then(() => console.log('Connection successful'))
+  .catch((err) => console.log(err));
+
+async function main() {
+  await mongoose.connect('mongodb://127.0.0.1:27017/test');
+}
+
+// Define Schema
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  age: Number,
+});
+
+// Define Model
+const User = mongoose.model("User", userSchema);
+
+// Create Instance
+const user1 = new User({ name: 'adam', email: 'adam@yahoo.in', age: 48 });
+
+// Save to Database
+user1.save()
+  .then(() => console.log('User saved successfully'))
+  .catch((err) => console.log('Error:', err));
+
+
+INSERT MULTIPLE 
+
+User.insertMany(
+    [
+        {name:'tony',email:'tony@gmail.com',age:50},
+        {name:'bruce',email:'bruce@gmail.com',age:45},
+        {name:'peter',email:'peter@gmail.com',age:56},
+    ]
+).then((data)=>{
+    console.log(data)
+});
+
+Note - Mongoose uses Operation Buffering 
+
+Mongoose lets you start using your models immediately, without waiting for mongoose to establish a connection to MongoDB 
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+FIND 
+
+Model.find() // returns a query object thennable 
+
+Mongoose queries are not promises but they have a .then()
+
+
+User.find({age:{$gte:47}}).then((data)=>{
+    console.log(data)
+});
+
+to return a single redult which comes first 
+
+User.findOne({age:{$gte:47}}).then((data)=>{
+    console.log(data)
+});
+
+
+---------------------------------------------------------------------------------
+
+
+UPDATE Model -> User 
+
+User.updateOne({name:'bruce'},{age:49}).then((res)=> console.log(res))
+
+User.updateMany({age:{$gt: 45}},{age:49}).then((res)=> console.log(res))
+
+Model.findOneAndUpdate()  pehle dhund fir update kr 
+User.findOneAndUpdate({name:'tony'},{age:60},{new:true}).then((data)=>console.log(data))
+
+Model.findByIdAndUpdate() same as above 
+User.findByIdAndUpdate({_id:'676179a987c10ebb50e5277c'},{age:60},{new:true}).then((data)=>console.log(data))
+
+
+if we dont write "new: true"  then it returns modified document 
+
+----------------------------------------------------------------------------------------------------------------------------
+
+DELETE 
+
+these both methods return count of deleted documents 
+
+User.deleteOne({name:'Adam'}).then((res)=>{
+    console.log(res);
+});
+
+User.deleteMany({age:{$gt:40}}).then((res)=>{
+    console.log(res);
+});
+
+TO print what is deleted use these methods 
+
+Model.findByIdAndDelete() -> give _id
+
+Model.findOneAndDelete() 
+
+--------------------------------------------------------------------------
+
+Schema Validations 
+
+Basically rules for schema 
+
+one way to initialize a schema is 
+
+const bookSchema = new mongoose.Schema({
+    title: String,
+    autor: String,
+    price: Number,
+});
+
+
+Other is (user for schema type conditions)
+
+const bookSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+
+    },
+    autor: {
+        type: String,
+        
+    },
+    price: {
+        type: Number,
+        
+    },
+});
+
+
+const Book = mongoose.model('Book',bookSchema);
+
+------------------------------------------------------------------------------
+
+Schema Type Options 
+
+const bookSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        maxLength:20,
+
+    },
+    autor: {
+        type: String,
+        
+    },
+    price: {
+        type: Number,
+        min:1,
+        
+    },
+    discount:{
+        type: Number,
+        default:0
+    },
+    category:{
+        type:String,
+        enum:['fiction','non-fiction']
+    },
+    genre: [String] --> Array of Strings 
+});
+
+
+Schema pe jo jo rules likhe hai vo sirf insertion pe apply hoga update pe nhi 
+
+
+agar update par bhi rules apply krne hai toh : 
+
+{runValidators:true} --> in update statement 
+
+Book.findByIdAndUpdate('id',{price:-100},{runValidators:true})
+
+
+we can also give custom errors if rules arent followed by providing in array 
+
+
+const bookSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        maxLength:20,
+
+    },
+    autor: {
+        type: String,
+        
+    },
+    price: {
+        type: Number,
+        min:[1,'Price is too low'],
+        
+    },
+    discount:{
+        type: Number,
+        default:0
+    },
+    category:{
+        type:String,
+        enum:['fiction','non-fiction']
+    },
+    genre: [String] --> Array of Strings 
+});
+
+
+Handling Errors 
+
+To console the error in log we do 
+
+console.log(err.errors.category.properties.message);
