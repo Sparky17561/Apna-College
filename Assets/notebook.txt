@@ -3188,3 +3188,18 @@ Handling Errors
 To console the error in log we do 
 
 console.log(err.errors.category.properties.message);
+
+----------------------------------------------------------------------
+
+Mongo with Express
+
+Creating the Model 
+
+see MONGO3
+
+chat will have id , from , to , message , created_at
+
+Using date in ejs 
+
+<%= chat.created_at.toString().split('')[4] %>
+<%= chat.created_at.toString().split(''),slice(0,4).join('')%>
