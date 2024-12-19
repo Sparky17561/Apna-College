@@ -3203,3 +3203,300 @@ Using date in ejs
 
 <%= chat.created_at.toString().split('')[4] %>
 <%= chat.created_at.toString().split(''),slice(0,4).join('')%>
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Middleware 
+It can access req and res of the function 
+chaining happens -> ek middleware dusre middleware ko control de 
+It can send response and stop the chaining 
+
+see middleware image
+
+Common Middleware functions 
+
+methodOverride 
+bodyParser
+express.static
+express.urlencoded 
+
+---------------------------------------------------------------------------
+
+What do middlewares do 
+
+- execute any code 
+- make changes to the request and response objects 
+- end the request-response cycle
+- call the next middleware function in the stack 
+
+
+---------------------------------------------------------------------
+
+Our 1st middleware 
+
+app.use(middleware) 
+
+
+app.use((req,res)=>{ //middleware
+    console.log('hi im middleware')
+    res.send('bye bye')
+})
+app.get('/',(req,res)=>{
+    res.send('hi im root')
+})
+
+app.get('/render',(req,res)=>{
+    res.send('hi this is the rendered page')
+})
+app.listen(port,()=>{
+    console.log(`connected to port ${port}`)
+})
+
+
+
+if we dont write res.send inside middleware then all paths wont load ... if we send a res we will only get the same response no matter the path 
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+using Next
+
+next middleware is commonly denoted by variable called next 
+
+app.use((req,res,next)=>{
+    console.log('Time:',Date.now())
+    next()
+})
+
+If the current middleware fn does not end the req-res cycle, it must call next() to pass control to the next middleware fn 
+
+const express = require('express')
+const app = express();
+const port = 8080 
+
+app.use((req,res,next)=>{
+    console.log('hi im middleware')
+    return next()
+})
+app.use((req,res,next)=>{
+    console.log('hi im  2nd middleware')
+    return next()
+})
+app.get('/',(req,res)=>{
+    res.send('hi im root')
+})
+
+app.get('/render',(req,res)=>{
+    res.send('hi this is the rendered page')
+})
+app.listen(port,()=>{
+    console.log(`connected to port ${port}`)
+})
+
+-------------------------------------------------------------
+
+Creating Utility Middleware 
+
+Logger 
+
+app.use((req,res,next)=>{
+    req.responseTime = new Date(Date.now()).toString();
+    console.log(req.method, req.path, req.responseTime, req.hostname);
+    next();
+})
+
+middleware code k start me likhte require k baad sab 
+
+middle pe aata h 
+-----------------------------------------------------------------------------------
+
+app.use() callback
+
+applications : can implement auth 
+
+
+app.use((req,res)=>{
+    res.status(404).send('page not found')
+})
+
+-------------------------------------------------------------------------------------
+
+Activity : API token as a query String 
+
+app.use('/api',(req,res,next)=>{
+    let {token} = req.query
+    if(token === 'get access'){
+        next();
+    }
+    res.send('ACCESS DENIED')
+})
+app.get('/api',(req,res)=>{
+    res.send('data')
+})
+
+
+-------------------------------------------------------------------
+
+Multiple Middlewares 
+
+const checkToken = (req,res,next)=>{
+    let {token} = req.query
+    if(token === 'get access'){
+        next();
+    }
+    res.send('ACCESS DENIED')
+}
+app.get('/api',checkToken,(req,res)=>{
+    res.send('data')
+})
+
+we can pass multiple middlewares like this 
+
+------------------------------------------------------------------------
+
+Handling Errors 
+
+Express Default Error Handler 
+
+app.get('/wrong',(req,res)=>{
+    abcd = abcd // gives error by giving stack trace of errors 
+})
+
+---------------------------------------------------------------------------------
+
+Error Handlers 
+
+app.use((err,req,res,next)=>{
+    console.log('----------ERROR-----------')
+    next(err)
+})
+
+
+ExpressError class in ExpressError.js 
+
+class ExpressError extends Error{
+    constructor(status,message){
+        super()
+        this.status=status
+        this.message = message
+    }
+}
+
+module.exports = ExpressError
+
+
+in app.js 
+
+const checkToken = (req,res,next)=>{
+    let {token} = req.query
+    if(token === 'get access'){
+        next();
+    }
+    throw new ExpressError(401,'Fuck u')
+}
+
+app.use((err,req,res,next)=>{
+    let {status,message}=err;
+    res.status(status).send(message)
+})
+
+---------------------------------------------------------
+
+we assume defaults cauz sometime status may be undefined resulting in breaking of backend
+so we assume 500 as status with some msg 
+
+app.use((err,req,res,next)=>{
+    let {status=500,message='some error occured'}=err;
+    res.status(status).send(message)
+})
+
+----------------------------------------------------------------------------------------
+
+Error Class 
+
+Create an admin route and send an error with a 403 status code 
+
+order matters --> error middleware should be at last 
+
+app.use((err,req,res,next)=>{
+    let {status=500,message='some error occured'}=err;
+    res.status(status).send(message)
+})
+
+app.get('/admin',(req,res)=>{
+    throw new ExpressError(403,'access is forbidden')
+})
+
+-------------------------------------------------------------------------------
+
+Handling Asyn Errors 
+
+// Route for fetching a chat by ID
+app.get('/chats/:id', async (req, res, next) => {
+    const { id } = req.params;
+
+    // Check if the provided ID is a valid MongoDB ObjectId
+    if (!mongoose.isValidObjectId(id)) {
+        return next(new ExpressError(400, 'Invalid chat ID'));
+    }
+
+    try {
+        // Attempt to find the chat in the database
+        const chat = await Chat.findById(id);
+        if (!chat) {
+            return next(new ExpressError(404, 'Chat not found'));
+        }
+        res.render('edit.ejs', { chat });
+    } catch (err) {
+        next(err); // Pass any unexpected errors to the error-handling middleware
+    }
+});
+
+inside next we call the class in an async function 
+
+-----------------------------------------------------------------------------------------
+
+using wrapAsync (not bulky as try-catch)
+
+it is a fn which has argument as function and which returns function 
+
+function asyncWrap(fn){
+    return function(req,res,next){
+        fn(req,res,next).catch((err) => next(err));
+    }
+}
+
+// Route for fetching a chat by ID
+app.get('/chats/:id', asyncWrap( async (req, res, next) => {
+    const { id } = req.params;
+
+    // // Check if the provided ID is a valid MongoDB ObjectId
+    // if (!mongoose.isValidObjectId(id)) {
+    //     return next(new ExpressError(400, 'Invalid chat ID'));
+    // }
+
+    // try {
+        // Attempt to find the chat in the database
+        const chat = await Chat.findById(id);
+        if (!chat) {
+            return next(new ExpressError(404, 'Chat not found'));
+        }
+        res.render('edit.ejs', { chat });
+    // } catch (err) {
+    //     next(err); // Pass any unexpected errors to the error-handling middleware
+    // }
+}))
+
+----------------------------------------------------------------------------------------------------
+
+How to handle errors in production 
+
+const handleValidationError= (err) => {
+    console.log('this is a validation error please follow rules')
+    console.dir(err.message)
+    return err
+}
+app.use((err,req,res,next)=>{
+    console.log(err.name)
+    if(err.name === 'ValidationError')
+        handleValidationError(err)
+    next(err)
+})
