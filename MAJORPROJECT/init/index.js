@@ -20,9 +20,10 @@ const initDB = async () => {
     // Assuming initData.data contains listings with an image object, extract the URL
     const fixedData = initData.data.map(item => ({
       ...item,
-      image: typeof item.image === 'object' ? item.image.url : item.image // Ensure it's a string (the URL)
+      image: typeof item.image === 'object' ? item.image.url : item.image,
+      owner: "67fcb8d5e1294a0eaef6dde8"
     }));
-  
+    
     await Listing.insertMany(fixedData);
     console.log('data was initialized');
   };

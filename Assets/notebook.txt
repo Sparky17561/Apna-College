@@ -3506,4 +3506,391 @@ app.use((err,req,res,next)=>{
 Form Validations 
 
 When we enter data in the form, the browser and/or the web server will check to see that the data is in the correct format and within the constraints set by the application 
-some gibberish
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Handling Deletion 
+
+using Mongoose Middleware 
+
+We can use 2 Middlewares 
+
+- Pre-run before the query is executed 
+- Post-run after the query is executed 
+
+
+If we remove a user we also need its posts to be deleted as well ..... its more like a procedure and rollback of SQL 
+
+findByOneAndDelete() is a middleware which executes even when we call findByIdAndDelete ...... the findByOneAndDelete is basically a middleware 
+------------------------------------------------------------------------------------------------------------------------------
+
+
+{nameOfSchema}.pre('findOneAndDelete', async()=>{
+    console.log('pre middleware')
+})
+
+{nameOfSchema}.post('findOneAndDelete', async()=>{
+    console.log('post middleware')
+})
+
+--------------------------------------------------------------------
+
+DELETING REVIEWS (PROJECT) 
+
+$pull operator in mongoose 
+
+The $pull operator removes from an existing array all instances of a value or values that match a specified condition 
+
+------------------------------------------------------------------------------------------------------------------------
+Express Router 
+
+Express router are a way to organize your express application such that our primary app.js file does not become bloated 
+
+const router = express.Router() // creates new router object 
+
+create a folder named routes 
+
+suppose u have functionality of CRUD for users and posts .... rather than creating 8 different methods in a single server.js file 
+
+we can create two files inside routes named user.js and post.js 
+
+inside user.js all the user related methods will be present 
+
+inside post.js all the post related methods will be present 
+
+inside user and post ... write const router = express.Router() --> to create a router object 
+
+now inside this user and post files ..... we know routes are written as app.get(), app.post()
+
+also where /user/:id , /user/ , /post type of common words will be present in both the user and post files remove them 
+
+replace app with router
+
+then do module.exports = router 
+
+....
+
+inside the server.js file (i.e app.js)
+do 
+
+const users = require('./routes/user.js)
+
+app.use('/users',users)
+
+const posts = require('./routes/post.js)
+
+app.use('/posts',posts)
+
+to use this routes 
+
+THis will make code shorter on the main server file 
+
+---------------------------------------------------------------------------------
+
+when we do routing ensure to give a parameter called mergeParams set to true 
+for when the id is getting undefined (we did gpt but later disclosed by shraddha di to use that)
+
+router = express.Router({mergeParams : true})
+
+mergeParams -> Preserve the req.params values from the parent router 
+ 
+if the parent and the child have conflicting parent names, the child's value takes precedence
+
+------------------------------------------------------------------------------------------------------------
+
+Cookies 
+
+Web cookies - HTTP cookies are small blocks of data created by a web server while a user is browsing a website and 
+placed on the user's computer or other device by the user's web browser 
+
+How to send ?? 
+
+-> use "res.cookie(name,value)" like res.send , res.render , res.redirect 
+
+ex . app.get('/getCookies',(req,res)=>{
+    res.cookie('greet','namaste')
+})
+
+
+How to receive ??
+
+
+-> install coookie parser from npm -> npm i cookie-parser 
+
+then do const cookieParser = require('cookie-parser')
+
+and then do 
+
+app.use(cookieParser())
+
+
+after that in any url u want to receive the cookie just request them 
+
+ex. app.get('/',(req,res)=>{
+    console.dir(req.cookies)
+    res.send('hi, im root')
+})
+
+
+so first the cookies will be parsed by the middleware and then passed on the urls which requested it
+
+some applicaions -
+
+app.get('/greet', (req,res)=>{
+    let {name = 'defaultName'} = req.cookies
+    res.send(`hi ${name}`)
+})
+
+
+But hackers can exploit it by going to console and changing the key value pairs of cookies 
+
+
+for that we have something called 
+
+"Signed Cookies"
+
+example - 
+
+app.use(cookieParser('secretcode'))
+
+app.get('/getSignedCookies', (req,res)=>{
+    res.cookie('made-in','india', {signed: true})
+    res.send('signed cookie sent')
+})
+
+
+app.get('/verify',(req,res)=>{
+    console.log(req.signedCookies)
+    res.send('verified')
+})
+
+it will give the correct cookie in key value pair if not tampered 
+
+req.cookies and req.signedCookies are different 
+
+if hackers tamper with the cookie it returns empty object
+
+if they intelligently remove and add their text still the output key will be printed but its key will be false
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+What is State 
+
+Stateful Protocol 
+
+Stateful protocol require server to save the status and session information 
+
+ex - ftp 
+
+Stateless protocol 
+
+Stateless protocol does not require the server to retain the server information 
+
+ex - http 
+
+---------------------------------------------------------------------------------------------
+
+Express sessions 
+
+An attempt to make our session stateful 
+
+
+ex- amazon pe u add all the items to card without login , when u proceed to pay ; it asks u to login and after login ur cart remains the same - stateful 
+
+npm i express-session 
+
+const session = require('express-session')
+
+app.use(session({secret : 'supersecretstring'}))
+
+app.get('/test',(req,res)=>{
+    res.send('successful')
+})
+
+here when we come to the test route we can see a session id is generated in the cookies section of application under the inspect tab of browser \
+
+the session comes with options then 
+
+app.use(session({secret : 'supersecretstring', resave: false, saveUninitialized: true}))
+
+
+resave : kuch change nhi hua tab bhi resave hoga session store , by default false rehta h
+saveUninitialized: jo session initialise bhi nhi hua vo bhi isme store hoga , by default true 
+
+ab depricated warning nhi aayegi 
+
+
+we can store session options in a variable and then use that 
+
+const sessionOptions = {
+    secret : 'supersecretstring',
+    resave: false, 
+    saveUninitialized: true
+}
+
+app.use(session(sessionOptions))
+
+app.get('/register', (req,res)=>{
+    let { name = 'anonymous' } = req.query // default is anonymous
+    req.session.name = name  // storing the name obtained in query string in session 
+    res.redirect('/hello')
+})
+
+
+app.get('/hello', (req,res)=>{
+    res.send(`hello, ${req.session.name}`) // using session name 
+})
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+connect-flash 
+
+The flash is a special area of the session used for storing messages. Messages are written to the flash and cleared after being displayed to the user 
+
+npm i connect-flash // often used with redirects 
+
+we need session , view.ejs for flashing messages 
+
+app.use(flash())
+
+
+app.get('/register', (req,res)=>{
+    let { name = 'anonymous' } = req.query // default is anonymous
+    req.session.name = name  // storing the name obtained in query string in session 
+    req.flash('success','user registered successfully')
+    res.redirect('/hello')
+})
+
+
+app.get('/hello', (req,res)=>{
+    res.render('page.ejs', { name : req.session.name, msg : req.flash('success')}) 
+})
+
+
+----------------------------------------------------------------------------------------------------------
+
+using locals for flashing messages 
+
+
+app.get('/hello', (req,res)=>{
+    res.locals.messages = req.flash('success')
+    res.render('page.ejs', { name : req.session.name}) 
+})
+
+
+page.ejs 
+
+
+<%= messages %>
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Authentication is the process of verifying who someone is 
+
+Authorization is the process of verifying what specific applications , files , and data a user has access to 
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Hashing 
+
+For every input there is a fixed output 
+
+They are one-way functions, we can't get input from output 
+
+for a different input, there is a different output but of same length 
+
+Small changes in input should bring large changes to the output 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Salting
+
+Password Salting is a technique to protect passwords stored in databases by adding a string of 32 or more characters and then hashing them
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Passport
+
+npm i passport 
+
+npm i passport-local 
+
+npm i passport-local-mongoose 
+
+
+------------------------------------------------------------------
+
+Configuring Strategy 
+
+passport.initialize()
+
+A middleware that initializes passport 
+
+
+passport.session()
+
+A web application needs the ability to identify users as they browse from page to page. This series of requests and responses, each associated with the same user, is known as a session.
+
+passport.use(new LocalStrategy(User.authenticate()))
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SignUP user
+
+GET -> display form
+
+POST -> submit form
+
+-------------------------------------------------------------------
+
+Login User
+
+GET -> display form
+
+POST -> submit form
+--------------------------------------------------------
+
+Connecting Login Route 
+
+how to check if user is logged In?
+
+req.isAuthenticated() //Passport method
+
+-----------------------------------------------------------
+
+Logout User 
+
+GET /logout
+
+router.get('/logout',(req,res)=>{
+    req.logout((err) =>{
+        if(err){
+            return next(err)
+        }
+        req.flash('success','logged you out')
+        res.redirect('/listings')
+    })
+})
+
+-----------------------------------------------------------------------------
+
+Login after SignUp 
+
+Passport's login method automatically establishes a login session
+We can invoke login to automatically login a user 
+
+req.login(registeredUser,(err)=>{
+    if(err){
+        next(err)
+    }
+    req.flash('success','Welcome to Wanderlust')
+    res.redirect('/listings')
+})
