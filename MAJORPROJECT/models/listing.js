@@ -10,9 +10,8 @@ const listingSchema = new Schema({
     },
     description: String,
     image: {
-        type: String,
-        default: '/club.jpg',
-        set: (v) => v === "" ? '/club.jpg' : v,
+        url: String ,
+        filename: String,
     },
     price: Number,
     location: String,

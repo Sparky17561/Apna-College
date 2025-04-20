@@ -3894,3 +3894,22 @@ req.login(registeredUser,(err)=>{
     req.flash('success','Welcome to Wanderlust')
     res.redirect('/listings')
 })
+
+------------------------------------------------------------------------------
+
+Store Files 
+
+Multer Store Cloudinary
+
+npm i cloudinary multer-storage-cloudinary
+
+-----------------------------------------------------------------------
+
+Mongo Atlas
+
+Cloud Database service
+
+
+Mongo DB based Session Store for Production 
+
+npm i connect-mongo
