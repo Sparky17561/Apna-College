@@ -3913,3 +3913,127 @@ Cloud Database service
 Mongo DB based Session Store for Production 
 
 npm i connect-mongo
+
+---------------------------------------------------------------------
+
+React 
+
+JS Library for creating UI 
+
+
+JSX 
+Javascript Extension Syntax 
+
+It lets us write HTML directly inside JS 
+----------------------------------------------------------------------------------
+
+Set up Local Environment 
+
+Create-react-app vs Vite 
+
+
+npm create vite@latest 
+
+npm run dev // to start server 
+
+vite is faster
+
+-----------------------------------------------------------
+
+
+App.jsx 
+
+import "./App.css";
+
+function App() {
+    return <h1>Hello World</h1>
+}
+
+
+export default App;
+
+---------------------------------------------------------------------
+
+
+Our 1st Component 
+
+Component is a reusable and independent piece of code 
+
+
+Creating a component - 
+
+function Title(){
+    return(
+        <div>
+            THis is my app 
+            <h1>Hello world</h1>
+        </div>
+    );
+}
+
+
+
+Rendering a component -
+1) <Title></Title>
+2) <Title/>
+
+function App(){
+    return(
+        <div>
+            <Title/>
+        </div>
+    );
+}
+
+---------------------------------------------------------------------
+
+Import-Export 
+
+
+Import 
+
+import Title from "./Title.jsx"
+
+Default Export 
+
+export default Title;
+
+Named Export 
+
+export {Title};
+import {Title} from "./Title.jsx"
+
+
+In Summary, named exports are useful when you want to export multiple values and import them with their specific names, while default exports are handy for exporting a single value and giving it a custom name when importing, The choice between the two depends on the structure and requirements of your codebase 
+
+-------------------------------------------------------------------------------------------------------------------
+
+Writing Markup in JSX 
+
+1. Return a single root element 
+2. Close all the tags  </>
+3. camelCase most of the things 
+
+
+------------------------------------------------------------------------
+
+React Fragment 
+
+Fragments let you group a list of children without adding extra nodes to the DOM
+
+
+------------------------------------------------------------------------------------
+
+JSX with Curly Braces 
+
+function Title(){
+    return <p> 2*2 = {2*2}</p>
+}
+
+
+function Title(){
+    let msg = 'Hello World'
+    return <p>message says {msg}</p>
+}
+
+{} -> anything inside this will be treated purely as JS
