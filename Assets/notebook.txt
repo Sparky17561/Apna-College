@@ -4037,3 +4037,16 @@ function Title(){
 }
 
 {} -> anything inside this will be treated purely as JS
+
+----------------------------------------------------------------------------------------
+
+Props are the information that u pass to a JSX tag 
+
+export default function Product({title,price}){
+    return (
+        <div>
+        <h4>{title}</h4>
+        <p>{price}</p>
+        </div>
+    );
+}
