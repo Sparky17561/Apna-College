@@ -7,6 +7,7 @@ const Product = ({title,price,features,features2}) => {
       <p>{price}</p>
       <p>{features}</p>
       <p>{features2.a}</p>
+      <p>{features2.b}</p>
     </div>
   )
 }
