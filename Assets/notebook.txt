@@ -4050,3 +4050,119 @@ export default function Product({title,price}){
         </div>
     );
 }
+
+-----------------------------------------------------
+
+we can also send array 
+
+ProductTab.jsx 
+
+App calls Product calls ProductTab 
+
+import React from 'react'
+import Product from './Product.jsx'
+const ProductTab = () => {
+    let features = ['durable', 'hi-tech']
+    let features2 = {a:'durable', b:'hi-tech'}
+    let features3 = [<li>"durable"</li>,<li>"Krezy"</li>,<li>"ollama"</li>]
+  return (
+    <div>
+      <Product title="phone" price={50000} features={features} features2={features2} features3={features3}/>
+    </div>
+  )
+}
+
+export default ProductTab
+
+Product.jsx
+
+import React from 'react'
+import './Product.css'
+const Product = ({title,price,features,features2,features3}) => {
+  return (
+    <div className='Product'>
+      <h1>{title}</h1>
+      <p>{price}</p>
+      <p>{features}</p>
+      <p>{features2.a}</p>
+      <p>{features2.b}</p>
+      <p>{features3}</p>
+    </div>
+  )
+}
+
+export default Product
+
+
+App.jsx 
+
+
+import './App.css'
+import Title from './Title.jsx'
+import Product from './Product.jsx'
+import ProductTab from './ProductTab.jsx';
+function App() {
+  return (
+    <div>
+      <ProductTab/>
+    </div>
+  );
+}
+
+export default App
+
+
+-------------------------------------------------------------------------
+
+Conditionals 
+
+Adding elements on the basis of some condition 
+
+{price >= 10000 ? <p>Discount : 5%</p> : null}
+{price >= 10000 && <p>Discount : 5%</p>}
+
+----------------------------------------------------------------------
+
+Dynamic Component Styling 
+
+
+let styles = {backgroundColor:"blue"};  // always camelCase
+
+<div classname="Product" style={styles}>
+
+-----------------------------------------------------------------------------
+
+Activity 
+
+Show a Hello Message to the user in different colors 
+
+Pass 2 values as props : username & textcolor 
+
+PrintUser.jsx 
+
+export default function PrintUser({userName,textColor}){
+    let styles = {color: textColor}
+    return (
+        <h1 style={styles}>Hello, {userName}</h1>
+    );
+}
+
+App.jsx
+
+
+import './App.css'
+import Title from './Title.jsx'
+import Product from './Product.jsx'
+import ProductTab from './ProductTab.jsx';
+import PrintUser from './PrintUser.jsx';
+function App() {
+  return (
+    <div>
+      
+      <PrintUser userName="Kylo" textColor="red"/>
+      <ProductTab/>
+    </div>
+  );
+}
+
+export default App

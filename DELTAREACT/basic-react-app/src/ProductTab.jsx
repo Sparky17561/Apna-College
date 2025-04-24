@@ -1,13 +1,22 @@
-import React from 'react'
-import Product from './Product.jsx'
-const ProductTab = () => {
-    let features = ['durable', 'hi-tech']
-    let features2 = {a:'durable', b:'hi-tech'}
-  return (
-    <div>
-      <Product title="phone" price={50000} features={features} features2={features2}/>
-    </div>
-  )
-}
+import React from 'react';
+import Product from './Product.jsx';
+import './Product.css';
 
-export default ProductTab
+const ProductTab = () => {
+  let styles = {
+    display : "flex",
+    flexWrap : "wrap",
+    justifyContent : "center",
+    alignItems : "center",
+  }
+  return (
+    <div style={styles}>
+      <Product title="Logitech MX master" idx={0}/>
+      <Product title="Apple Pencil (2nd gen)" idx={1}/>
+      <Product title="Zebronics Zerb-Transformer" idx={2}/>
+      <Product title="Petronics Toad 23" idx={3}/>
+    </div>
+  );
+};
+
+export default ProductTab;
