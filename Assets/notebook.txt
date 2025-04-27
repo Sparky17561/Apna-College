@@ -4168,4 +4168,61 @@ function App() {
 export default App
 ---------------------------------------------------------------------------------
 
-React Events
+React Events 
+
+Handling click events 
+
+
+function doSomething(){
+    console.log('i got clicked')
+}
+
+export default function Button(){
+    return (
+        <div>
+            <button onClick={doSomething}>Click Me!</button>
+        </div>
+    );
+}
+
+-----------------------------------------------------------------------------------------------
+
+Handling Non-click events 
+
+function handleOver(){
+    console.log('hover')
+}
+
+export default function Button(){
+    return (
+        <div>
+            <button onMouseOver={handleOver}>Hover over me!</button>
+        </div>
+    );
+}
+
+--------------------------------------------------------------------------------------------------
+
+Event Object 
+
+We can access the Event Object in Handler 
+
+function handleFormSubmit(event){
+    event.preventDefault()  // console pe jaaoge toh jab normally code run kroge toh button click krne k baad thode ms k liye output aake chla jayega ...... ye daloge toh print hote rhega
+    console.log("form was submitted")
+}
+
+export default function Form(){
+    return (
+        <form onSubmit={handleFormSubmit}>
+            <input placeholder="write something" />
+            <button>Submit</button>
+        </form>
+    );
+}
+----------------------------------------------------------------------------------------------
+
+State in React 
+
+The state is a built-in React object that is used to contain data or information about the component.
+A component's state can change over time; whenever it changes, the component re-renders.
