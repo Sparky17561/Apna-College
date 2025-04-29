@@ -4250,3 +4250,73 @@ useState returns an array with exactly two values :
 
 1. THe current state. During the first render, it will match the initialState you have passed 
 2. The set function that lets you update the state to a different value and trigger
+
+-----------------------------------------------------------------------------------------------------------------
+
+import { useState } from "react";
+
+export default function Counter(){
+    let [stateVariable,setStateVariable] = useState(0);
+    let [count,setCount] = useState(0)
+
+    let incCount = ()=>{
+        setCount(count+1)
+        
+    }
+
+    
+
+    return (
+        <div>
+            <h3>Count = {count}</h3>
+            <button onClick={incCount}>Increase Count</button>
+        </div>
+    );
+}
+
+---------------------------------------------------------------------------------------
+
+Create LikeButton 
+
+useState is a React Hook that lets you add a state variable to your component 
+
+import {useState} from 'react'
+export default function LikeButton(){
+    let [isLiked, setIsLiked] = useState(false)
+    let toggleLike = () =>{
+        setIsLiked(!isLiked)
+    }
+
+    let likeStyle = {color: "red"}
+    return (
+        <div>
+            <p onClick={toggleLike}>{isLiked ? <i className="fa-solid fa-heart" style={likeStyle}></i> : <i className="fa-regular fa-heart"></i> }</p>
+        </div>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Closure 
+
+A Closure is a feature in JavaScript where an inner function has access to the outer (enclosing) function's variables
+
+*In JS, once a function completes its execution, any variable that were defined inside the function scope cease to exist*
+
+
+function outer(){
+
+    var b = 10;
+    function inner(){
+        var a = 20;
+        console.log(a+b)
+    }
+    return inner;
+}
+
+
+if then we do 
+
+let inner = outer();
+
+inner()
