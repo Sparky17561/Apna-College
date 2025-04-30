@@ -4315,8 +4315,14 @@ function outer(){
 }
 
 
-if then we do 
+if then we enter this in console a+b gets executed 
 
 let inner = outer();
 
 inner()
+
+------------------------------------------------------------------------------
+
+Re-render : How it works?
+
+
